@@ -3,12 +3,12 @@ import { styles } from "./styles";
 
 interface IButtonProps {
   title: string;
-  removeParticipant: () => void,
+  onRemove: () => void;
 }
 
-export function ButtonNegative({ title, removeParticipant }: IButtonProps) {
+export function ButtonNegative({ title, onRemove }: IButtonProps) {
   return (
-    <TouchableOpacity style={styles.button} onPress={removeParticipant}>
+    <TouchableOpacity style={styles.button} onPress={onRemove}>
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );

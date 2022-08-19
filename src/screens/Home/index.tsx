@@ -4,8 +4,12 @@ import { Participant } from "../../components/Participant";
 import { styles } from "./styles";
 
 export function Home() {
-  function handleParticipantsAdd() {
-    console.log("Você clicou no botão de adicionar!");
+  function handleParticipantAdd() {
+    console.log("Participante adicionado!");
+  }
+
+  function handleParticipantRemove(name: string) {
+    console.log(`Participante ${name} removido!`);
   }
 
   return (
@@ -20,12 +24,18 @@ export function Home() {
           placeholderTextColor="#6B6B6B"
           // keyboardType="email-address"
         />
-        <ButtonPositive title="+" addParticipant={handleParticipantsAdd} />
+        <ButtonPositive title="+" addParticipant={handleParticipantAdd} />
       </View>
 
       <View style={styles.participants}>
-        <Participant />
-        <Participant />
+        <Participant
+          name="Anderson Nascimento"
+          onRemove={() => handleParticipantRemove("Anderson Nascimento")}
+        />
+        <Participant
+          name="Yanni Teixeira"
+          onRemove={() => handleParticipantRemove("Yanni Teixeira")}
+        />
       </View>
     </View>
   );
