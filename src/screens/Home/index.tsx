@@ -1,15 +1,37 @@
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, TextInput, View, /* ScrollView */ FlatList } from "react-native";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
 import { ButtonPositive } from "../../components/ButtonPositive";
 import { Participant } from "../../components/Participant";
 import { styles } from "./styles";
 
 export function Home() {
+  const participants = [
+    { id: uuidv4(), name: "Anderson Nascimento" },
+    { id: uuidv4(), name: "Yanni Teixeira" },
+    { id: uuidv4(), name: "Thyago Teixeira" },
+    { id: uuidv4(), name: "Bruno Teixeira" },
+    { id: uuidv4(), name: "Gabriela Souza" },
+    { id: uuidv4(), name: "Maria Luiza" },
+    { id: uuidv4(), name: "Celma Nascimento" },
+    { id: uuidv4(), name: "Rubens Nascimento" },
+  ];
+
   function handleParticipantAdd() {
     console.log("Participante adicionado!");
   }
 
-  function handleParticipantRemove(name: string) {
-    console.log(`Participante ${name} removido!`);
+  function handleParticipantRemove(id: string) {
+    // const participantIndex = participants.map((participant) => participant.id).indexOf(id);
+    const participantIndex = participants.findIndex(
+      (participant) => participant.id === id
+    );
+
+    if (participantIndex !== -1) {
+      console.log(
+        `Participante ${participants[participantIndex].name} removido!`
+      );
+    }
   }
 
   return (
@@ -27,16 +49,41 @@ export function Home() {
         <ButtonPositive title="+" addParticipant={handleParticipantAdd} />
       </View>
 
-      <View style={styles.participants}>
-        <Participant
-          name="Anderson Nascimento"
-          onRemove={() => handleParticipantRemove("Anderson Nascimento")}
-        />
-        <Participant
-          name="Yanni Teixeira"
-          onRemove={() => handleParticipantRemove("Yanni Teixeira")}
-        />
-      </View>
+      {/* Não renderiza todos os items, apenas os que cabem na tela, apenas ao rolar que os demais items serão renderizados. Quando a lista for grande ou não souber exatamente a quantidade. */}
+      <FlatList
+        data={participants}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <Text style={styles.listEmptyText}>
+            Ninguém chegou no evento ainda? Adicione participantes a sua lista
+            de presença.
+          </Text>
+        )}
+        renderItem={({ item }) => (
+          <View style={styles.participantWrapper}>
+            <Participant
+              key={item.id}
+              name={item.name}
+              onRemove={() => handleParticipantRemove(item.id)}
+            />
+          </View>
+        )}
+      />
+
+      {/* Renderiza todos os componentes na tela. A pesar deles não estarem visíveis. Quando a lista for pequena*/}
+
+      {/* <ScrollView showsVerticalScrollIndicator={false}>
+        {participants.map((participant) => (
+          <View style={styles.participantWrapper}>
+            <Participant
+              key={participant.id}
+              name={participant.name}
+              onRemove={() => handleParticipantRemove(participant.id)}
+            />
+          </View>
+        ))}
+      </ScrollView> */}
     </View>
   );
 }

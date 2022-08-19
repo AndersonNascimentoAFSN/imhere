@@ -32,8 +32,12 @@ export const styles = StyleSheet.create({
     marginTop: 36,
     marginBottom: 42
   },
-  participants: {
-    display: "flex",
-    gap: 10,
+  participantWrapper: {
+    marginBottom: 10
+  },
+  listEmptyText: {
+    color: "#FFFF",
+    fontSize: 14,
+    textAlign: "center"
   }
 });
