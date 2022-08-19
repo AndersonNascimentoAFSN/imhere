@@ -1,4 +1,6 @@
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ButtonPositive } from "../../components/ButtonPositive";
+import { Participant } from "../../components/Participant";
 import { styles } from "./styles";
 
 export function Home() {
@@ -18,10 +20,12 @@ export function Home() {
           placeholderTextColor="#6B6B6B"
           // keyboardType="email-address"
         />
+        <ButtonPositive title="+" addParticipant={handleParticipantsAdd} />
+      </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleParticipantsAdd}>
-          <Text style={styles.buttonText}>+</Text>
-        </TouchableOpacity>
+      <View style={styles.participants}>
+        <Participant />
+        <Participant />
       </View>
     </View>
   );

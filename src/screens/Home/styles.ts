@@ -25,23 +25,15 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     flex: 1
   },
-  buttonText: {
-    color: "#FDFCFE",
-    fontSize: 24
-  },
-  button: {
-    width:  56,
-    height: 56,
-    borderRadius: 5,
-    backgroundColor: "#31CF67",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   form: {
     width: "100%",
     flexDirection: "row",
     gap: 10,
     marginTop: 36,
     marginBottom: 42
+  },
+  participants: {
+    display: "flex",
+    gap: 10,
   }
 });
