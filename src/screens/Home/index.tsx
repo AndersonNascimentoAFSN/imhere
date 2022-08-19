@@ -1,4 +1,10 @@
-import { Text, TextInput, View, /* ScrollView */ FlatList } from "react-native";
+import {
+  Text,
+  TextInput,
+  View,
+  /* ScrollView */ FlatList,
+  Alert,
+} from "react-native";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 import { ButtonPositive } from "../../components/ButtonPositive";
@@ -18,7 +24,16 @@ export function Home() {
   ];
 
   function handleParticipantAdd() {
-    console.log("Participante adicionado!");
+    if (
+      participants.find(
+        (participant) => participant.name === "Anderson Nascimento"
+      )
+    ) {
+      return Alert.alert(
+        "Participante Existe",
+        "Já existe um participante na lista com esse nome!"
+      );
+    }
   }
 
   function handleParticipantRemove(id: string) {
@@ -28,8 +43,19 @@ export function Home() {
     );
 
     if (participantIndex !== -1) {
-      console.log(
-        `Participante ${participants[participantIndex].name} removido!`
+      Alert.alert(
+        "Remover",
+        `Deseja remover o participante ${participants[participantIndex].name}`,
+        [
+          {
+            text: "Sim",
+            onPress: () => Alert.alert("Deletado!"),
+          },
+          {
+            text: "Não",
+            style: "cancel",
+          },
+        ]
       );
     }
   }
