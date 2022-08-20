@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Text,
   TextInput,
@@ -11,29 +12,50 @@ import { ButtonPositive } from "../../components/ButtonPositive";
 import { Participant } from "../../components/Participant";
 import { styles } from "./styles";
 
+// const participants = [
+//   { id: uuidv4(), name: "Anderson Nascimento" },
+//   { id: uuidv4(), name: "Yanni Teixeira" },
+//   { id: uuidv4(), name: "Thyago Teixeira" },
+//   { id: uuidv4(), name: "Bruno Teixeira" },
+//   { id: uuidv4(), name: "Gabriela Souza" },
+//   { id: uuidv4(), name: "Maria Luiza" },
+//   { id: uuidv4(), name: "Celma Nascimento" },
+//   { id: uuidv4(), name: "Rubens Nascimento" },
+// ];
+
+type Participant = {
+  id: string;
+  name: string;
+};
+
+type Participants = Participant[];
+
+const defaultStateParticipant = {
+  id: "",
+  name: "",
+}
+
 export function Home() {
-  const participants = [
-    { id: uuidv4(), name: "Anderson Nascimento" },
-    { id: uuidv4(), name: "Yanni Teixeira" },
-    { id: uuidv4(), name: "Thyago Teixeira" },
-    { id: uuidv4(), name: "Bruno Teixeira" },
-    { id: uuidv4(), name: "Gabriela Souza" },
-    { id: uuidv4(), name: "Maria Luiza" },
-    { id: uuidv4(), name: "Celma Nascimento" },
-    { id: uuidv4(), name: "Rubens Nascimento" },
-  ];
+  const [participants, setParticipants] = useState<Participants>([]);
+  const [participant, setParticipant] = useState<Participant>(defaultStateParticipant);
 
   function handleParticipantAdd() {
-    if (
-      participants.find(
-        (participant) => participant.name === "Anderson Nascimento"
-      )
-    ) {
+    if (participants.find(({ name }) => name === participant.name)) {
       return Alert.alert(
         "Participante Existe",
         "Já existe um participante na lista com esse nome!"
       );
     }
+
+    if (!participant.name) {
+      return Alert.alert(
+        "Insira Nome Participante",
+        "É necessário informar o nome do participante"
+      );
+    }
+
+    setParticipants((prev) => [...prev, participant]);
+    setParticipant(defaultStateParticipant)
   }
 
   function handleParticipantRemove(id: string) {
@@ -45,11 +67,15 @@ export function Home() {
     if (participantIndex !== -1) {
       Alert.alert(
         "Remover",
-        `Deseja remover o participante ${participants[participantIndex].name}`,
+        `Deseja remover o participante ${participants[participantIndex].name}?`,
         [
           {
             text: "Sim",
-            onPress: () => Alert.alert("Deletado!"),
+            onPress: () => {
+              const newParticipants = participants.filter((participant) => participant.id !== id)
+              setParticipants(newParticipants)
+              Alert.alert("Deletado!")
+            },
           },
           {
             text: "Não",
@@ -70,6 +96,10 @@ export function Home() {
           style={styles.input}
           placeholder="Nome do participante"
           placeholderTextColor="#6B6B6B"
+          onChangeText={(nameParticipant) =>
+            setParticipant({ id: uuidv4(), name: nameParticipant })
+          }
+          value={participant.name}
           // keyboardType="email-address"
         />
         <ButtonPositive title="+" addParticipant={handleParticipantAdd} />
