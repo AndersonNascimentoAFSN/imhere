@@ -3,7 +3,8 @@ import {
   Text,
   TextInput,
   View,
-  /* ScrollView */ FlatList,
+  /* ScrollView */
+  FlatList,
   Alert,
 } from "react-native";
 import "react-native-get-random-values";
@@ -33,11 +34,13 @@ type Participants = Participant[];
 const defaultStateParticipant = {
   id: "",
   name: "",
-}
+};
 
 export function Home() {
   const [participants, setParticipants] = useState<Participants>([]);
-  const [participant, setParticipant] = useState<Participant>(defaultStateParticipant);
+  const [participant, setParticipant] = useState<Participant>(
+    defaultStateParticipant
+  );
 
   function handleParticipantAdd() {
     if (participants.find(({ name }) => name === participant.name)) {
@@ -55,7 +58,7 @@ export function Home() {
     }
 
     setParticipants((prev) => [...prev, participant]);
-    setParticipant(defaultStateParticipant)
+    setParticipant(defaultStateParticipant);
   }
 
   function handleParticipantRemove(id: string) {
@@ -72,9 +75,10 @@ export function Home() {
           {
             text: "Sim",
             onPress: () => {
-              const newParticipants = participants.filter((participant) => participant.id !== id)
-              setParticipants(newParticipants)
-              Alert.alert("Deletado!")
+              setParticipants((participants => participants.filter(
+                (participant) => participant.id !== id
+              )));
+              Alert.alert("Deletado!");
             },
           },
           {
